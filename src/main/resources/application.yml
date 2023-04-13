@@ -1,0 +1,39 @@
+server:
+  error:
+    include-message: always
+spring:
+  datasource:
+    driverClassName: org.h2.Driver
+    password: ''
+    url: jdbc:h2:mem:test;
+    username: sa
+    hikari:
+      max-lifetime: 12000
+      connection-timeout: 20000
+      minimum-idle: 1
+      maximum-pool-size: 30
+      idle-timeout: 30000
+      auto-commit: true
+  h2:
+    console:
+      enabled: true
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+        show_sql: true
+        use_sql_comments: true
+        jdbc:
+          batch_size: 30
+  mvc:
+    format:
+      date: yyyy-MM-dd
+      date-time: yyyy-MM-dd HH:mm:ss
+      time: HH:mm:ss
+  sql:
+    init:
+      mode: always
