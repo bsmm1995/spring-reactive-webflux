@@ -4,6 +4,7 @@ import com.bp.ensayo.ct1.domain.dto.TransactionDTO;
 import com.bp.ensayo.ct1.domain.dto.TransferDTO;
 import com.bp.ensayo.ct1.domain.entity.AccountEntity;
 import com.bp.ensayo.ct1.domain.entity.TransactionEntity;
+import com.bp.ensayo.ct1.domain.enu.AccountStatus;
 import com.bp.ensayo.ct1.domain.enu.TransactionType;
 import com.bp.ensayo.ct1.exception.AccountException;
 import com.bp.ensayo.ct1.repository.AccountRepository;
@@ -61,6 +62,10 @@ public class TransactionServiceImpl implements TransactionService {
         if (accountOrigen.getAmount().compareTo(data.getAmount()) < 0) {
             throw new AccountException("Saldo insuficiente. Saldo actual " + accountOrigen.getAmount());
         }
+
+        if (accountDestination.getStatus().equals(AccountStatus.INACTIVE)) {
+            throw new AccountException("La cuenta " + data.getAccountNumberDestination() + " no se encuentra activa.");
+        }
         accountOrigen.setAmount(accountOrigen.getAmount().subtract(data.getAmount()));
         accountRepository.save(accountOrigen);
 
@@ -73,16 +78,11 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     private AccountEntity getAccountEntity(String accountNumber) {
-        return accountRepository.findByAccountNumber(accountNumber)
-                .orElseThrow(() -> new NoSuchElementException("No existe la cuenta con numero " + accountNumber));
+        return accountRepository.findByAccountNumber(accountNumber).orElseThrow(() -> new NoSuchElementException("No existe la cuenta con numero " + accountNumber));
     }
 
     private void saveTransaction(AccountEntity account, BigDecimal amount, TransactionType type) {
-        TransactionEntity credit = TransactionEntity.builder()
-                .transactionType(type)
-                .amount(amount)
-                .account(account)
-                .build();
+        TransactionEntity credit = TransactionEntity.builder().transactionType(type).amount(amount).account(account).build();
         transactionRepository.save(credit);
     }
 }
