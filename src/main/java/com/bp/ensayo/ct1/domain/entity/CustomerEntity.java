@@ -8,7 +8,6 @@ import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import java.util.UUID;
 
 @Data
 @Entity(name = "CUSTOMER")
@@ -17,7 +16,7 @@ public class CustomerEntity implements Serializable {
     @Id
     @Column(nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.AUTO)
-    UUID id;
+    Long id;
 
     @Column(nullable = false, unique = true)
     String identification;
@@ -27,7 +26,6 @@ public class CustomerEntity implements Serializable {
 
     @Column(nullable = false)
     String lastname;
-
 
     @Enumerated(EnumType.STRING)
     @Column(name = "IDENTIFICATION_TYPE", nullable = false)

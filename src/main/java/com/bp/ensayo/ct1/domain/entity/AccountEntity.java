@@ -9,7 +9,6 @@ import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.UUID;
 
 @Data
 @Entity(name = "ACCOUNT")
@@ -18,7 +17,7 @@ public class AccountEntity implements Serializable {
     @Id
     @Column(nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.AUTO)
-    UUID id;
+    Long id;
 
     @Column(name = "ACCOUNT_NUMBER", nullable = false, unique = true)
     String accountNumber;
