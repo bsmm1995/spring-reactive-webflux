@@ -35,7 +35,7 @@ public class TransactionServiceImpl implements TransactionService {
         AccountEntity account = getAccountEntityByNumber(data.getAccountNumber());
         account.setAmount(account.getAmount().add(data.getAmount()));
         accountRepository.save(account);
-
+        log.info("Se guardó el deposito");
         saveTransaction(account, data.getAmount(), TransactionType.CREDIT);
         return data;
     }
@@ -49,7 +49,7 @@ public class TransactionServiceImpl implements TransactionService {
         }
         account.setAmount(account.getAmount().subtract(data.getAmount()));
         accountRepository.save(account);
-
+        log.info("Se guardó el retiro");
         saveTransaction(account, data.getAmount(), TransactionType.DEBIT);
         return data;
     }
@@ -71,10 +71,10 @@ public class TransactionServiceImpl implements TransactionService {
         }
         accountOrigen.setAmount(accountOrigen.getAmount().subtract(data.getAmount()));
         accountRepository.save(accountOrigen);
-
+        log.info("Se guardó el debito en la cuenta origen");
         accountDestination.setAmount(accountDestination.getAmount().add(data.getAmount()));
         accountRepository.save(accountDestination);
-
+        log.info("Se guardó el credito en la cuenta destino");
         saveTransaction(accountOrigen, data.getAmount(), TransactionType.DEBIT);
         saveTransaction(accountDestination, data.getAmount(), TransactionType.CREDIT);
         return data;
@@ -83,8 +83,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public List<TransactionDTO> getSummary(String accountNumber) {
         AccountEntity account = getAccountEntityByNumber(accountNumber);
-        return transactionRepository.findAllByAccount(account)
-                .stream().map(TransactionMapper.INSTANCE::toDto).toList();
+        return transactionRepository.findAllByAccount(account).stream().map(TransactionMapper.INSTANCE::toDto).toList();
     }
 
     private AccountEntity getAccountEntityByNumber(String accountNumber) {
@@ -94,5 +93,6 @@ public class TransactionServiceImpl implements TransactionService {
     private void saveTransaction(AccountEntity account, BigDecimal amount, TransactionType type) {
         TransactionEntity credit = TransactionEntity.builder().transactionType(type).amount(amount).account(account).build();
         transactionRepository.save(credit);
+        log.info("Se guardó la transacción. cuenta={}, tipo={}", account.getAccountNumber(), type);
     }
 }
