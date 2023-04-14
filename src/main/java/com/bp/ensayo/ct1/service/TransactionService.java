@@ -1,12 +1,17 @@
 package com.bp.ensayo.ct1.service;
 
+import com.bp.ensayo.ct1.domain.dto.Transaction;
 import com.bp.ensayo.ct1.domain.dto.TransactionDTO;
 import com.bp.ensayo.ct1.domain.dto.TransferDTO;
 
-public interface TransactionService {
-    TransactionDTO makeDeposit(TransactionDTO data);
+import java.util.List;
 
-    TransactionDTO makeWithdrawal(TransactionDTO data);
+public interface TransactionService {
+    Transaction makeDeposit(Transaction data);
+
+    Transaction makeWithdrawal(Transaction data);
 
     TransferDTO makeTransfer(TransferDTO data);
+
+    List<TransactionDTO> getSummary(String accountNumber);
 }
