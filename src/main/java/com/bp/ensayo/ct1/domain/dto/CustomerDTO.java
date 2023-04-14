@@ -7,12 +7,11 @@ import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.util.UUID;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CustomerDTO implements Serializable {
-    UUID id;
+    Long id;
     @NotBlank
     String identification;
     @NotBlank

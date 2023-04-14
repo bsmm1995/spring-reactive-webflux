@@ -11,12 +11,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.UUID;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AccountDTO implements Serializable {
-    UUID id;
+    Long id;
     @NotBlank String accountNumber;
     @NotNull @Min(0) BigDecimal amount;
     AccountStatus status;
