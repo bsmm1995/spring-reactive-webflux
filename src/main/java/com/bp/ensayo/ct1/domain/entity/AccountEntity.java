@@ -9,6 +9,7 @@ import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @Entity(name = "ACCOUNT")
@@ -36,4 +37,7 @@ public class AccountEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "CUSTOMER_ID", nullable = false)
     private CustomerEntity customer;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
+    private List<TransactionEntity> transactions;
 }
