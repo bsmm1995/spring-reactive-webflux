@@ -1,0 +1,38 @@
+package com.bp.ensayo.ct1.domain.entity;
+
+import com.bp.ensayo.ct1.domain.enu.IdentificationType;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.experimental.FieldDefaults;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
+import java.util.UUID;
+
+@Data
+@Entity(name = "CUSTOMER")
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class CustomerEntity implements Serializable {
+    @Id
+    @Column(nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    UUID id;
+
+    @Column(nullable = false, unique = true)
+    String identification;
+
+    @Column(nullable = false)
+    String name;
+
+    @Column(nullable = false)
+    String lastname;
+
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "IDENTIFICATION_TYPE", nullable = false)
+    IdentificationType identificationType;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
+    private List<AccountEntity> accounts;
+}
