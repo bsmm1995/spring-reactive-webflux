@@ -61,11 +61,11 @@ public class TransactionServiceImpl implements TransactionService {
             throw new AccountException("No se puede realizar transferencia entre la misma cuenta.");
         }
         AccountEntity accountOrigen = getAccountEntityByNumber(data.getAccountNumberOrigin());
-        AccountEntity accountDestination = getAccountEntityByNumber(data.getAccountNumberDestination());
         if (accountOrigen.getAmount().compareTo(data.getAmount()) < 0) {
             throw new AccountException("Saldo insuficiente. Saldo actual " + accountOrigen.getAmount());
         }
 
+        AccountEntity accountDestination = getAccountEntityByNumber(data.getAccountNumberDestination());
         if (accountDestination.getStatus().equals(AccountStatus.INACTIVE)) {
             throw new AccountException("La cuenta " + data.getAccountNumberDestination() + " no se encuentra activa.");
         }

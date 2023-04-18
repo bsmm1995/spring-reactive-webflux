@@ -1,6 +1,7 @@
 package com.bp.ensayo.ct1.service.impl;
 
 import com.bp.ensayo.ct1.domain.dto.Transaction;
+import com.bp.ensayo.ct1.domain.dto.TransferDTO;
 import com.bp.ensayo.ct1.domain.entity.AccountEntity;
 import com.bp.ensayo.ct1.domain.enu.AccountStatus;
 import com.bp.ensayo.ct1.domain.enu.AccountType;
@@ -84,6 +85,64 @@ class TransactionServiceImplTest {
     }
 
     @Test
-    void makeTransfer() {
+    void makeTransferMismaCuenta() {
+        String accountNumber = "1234";
+        TransferDTO transaction = new TransferDTO();
+        transaction.setAccountNumberOrigin(accountNumber);
+        transaction.setAccountNumberDestination(accountNumber);
+        transaction.setAmount(new BigDecimal(120));
+
+        Throwable exception = assertThrows(AccountException.class, () -> transactionService.makeTransfer(transaction));
+        assertEquals("No se puede realizar transferencia entre la misma cuenta.", exception.getMessage());
+    }
+
+    @Test
+    void makeTransferSaldoInsuficiente() {
+        String accountNumber = "1234";
+
+        TransferDTO transaction = new TransferDTO();
+        transaction.setAccountNumberOrigin(accountNumber);
+        transaction.setAccountNumberDestination("1235");
+        transaction.setAmount(new BigDecimal(120));
+
+        AccountEntity accountOrigen = new AccountEntity();
+        accountOrigen.setId(1L);
+        accountOrigen.setAccountNumber(accountNumber);
+        accountOrigen.setAmount(new BigDecimal(5));
+        accountOrigen.setType(AccountType.SAVINGS);
+        accountOrigen.setStatus(AccountStatus.ACTIVE);
+
+        when(accountRepositoryMock.findByAccountNumber(accountNumber)).thenReturn(Optional.of(accountOrigen));
+        Throwable exception = assertThrows(AccountException.class, () -> transactionService.makeTransfer(transaction));
+        assertEquals("Saldo insuficiente. Saldo actual " + accountOrigen.getAmount(), exception.getMessage());
+    }
+
+    @Test
+    void makeTransferCuentaInactiva() {
+        String accountNumber = "1234";
+
+        TransferDTO transaction = new TransferDTO();
+        transaction.setAccountNumberOrigin(accountNumber);
+        transaction.setAccountNumberDestination("1235");
+        transaction.setAmount(new BigDecimal(120));
+
+        AccountEntity accountOrigen = new AccountEntity();
+        accountOrigen.setId(1L);
+        accountOrigen.setAccountNumber(accountNumber);
+        accountOrigen.setAmount(new BigDecimal(5000));
+        accountOrigen.setType(AccountType.SAVINGS);
+        accountOrigen.setStatus(AccountStatus.ACTIVE);
+
+        AccountEntity accountDestination = new AccountEntity();
+        accountDestination.setId(1L);
+        accountDestination.setAccountNumber(transaction.getAccountNumberDestination());
+        accountDestination.setAmount(new BigDecimal(5));
+        accountDestination.setType(AccountType.SAVINGS);
+        accountDestination.setStatus(AccountStatus.INACTIVE);
+
+        when(accountRepositoryMock.findByAccountNumber(accountNumber)).thenReturn(Optional.of(accountOrigen));
+        when(accountRepositoryMock.findByAccountNumber(transaction.getAccountNumberDestination())).thenReturn(Optional.of(accountDestination));
+        Throwable exception = assertThrows(AccountException.class, () -> transactionService.makeTransfer(transaction));
+        assertEquals("La cuenta " + transaction.getAccountNumberDestination() + " no se encuentra activa.", exception.getMessage());
     }
 }
