@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@Tag(name = "Customer", description = "Servicios para administrar clientes.")
+@Tag(name = "Transactions", description = "Gestionar transacciones")
 @RestController
 @Slf4j
 @RequiredArgsConstructor
