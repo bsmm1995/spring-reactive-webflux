@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @OpenAPIDefinition(
         info = @Info(
-                title = "Evaluation CT1 API",
+                title = "Evaluation API",
                 version = "1.0",
                 contact = @Contact(
                         name = "Banco Pichincha", email = "info@pichincha.com", url = "https://www.pichincha.com"
