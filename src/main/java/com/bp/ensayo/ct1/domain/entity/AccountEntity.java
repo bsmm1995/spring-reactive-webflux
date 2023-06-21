@@ -2,11 +2,11 @@ package com.bp.ensayo.ct1.domain.entity;
 
 import com.bp.ensayo.ct1.domain.enu.AccountStatus;
 import com.bp.ensayo.ct1.domain.enu.AccountType;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;

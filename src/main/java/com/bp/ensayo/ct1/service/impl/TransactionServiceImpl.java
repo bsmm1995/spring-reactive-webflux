@@ -12,11 +12,11 @@ import com.bp.ensayo.ct1.repository.AccountRepository;
 import com.bp.ensayo.ct1.repository.TransactionRepository;
 import com.bp.ensayo.ct1.service.TransactionService;
 import com.bp.ensayo.ct1.service.mapper.TransactionMapper;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;

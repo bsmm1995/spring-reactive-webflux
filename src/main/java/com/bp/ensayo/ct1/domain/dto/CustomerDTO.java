@@ -1,11 +1,11 @@
 package com.bp.ensayo.ct1.domain.dto;
 
 import com.bp.ensayo.ct1.domain.enu.IdentificationType;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.List;
 

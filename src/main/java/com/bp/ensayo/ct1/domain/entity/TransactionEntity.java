@@ -1,10 +1,10 @@
 package com.bp.ensayo.ct1.domain.entity;
 
 import com.bp.ensayo.ct1.domain.enu.TransactionType;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
