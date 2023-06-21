@@ -1,10 +1,14 @@
 package com.bp.ensayo.service.impl;
 
-import com.bp.ensayo.helper.FactoryClient;
+import com.bp.ensayo.helper.Factory;
 import com.bp.ensayo.service.WebService;
 import com.bp.ensayo.service.dto.ProductDTO;
+import com.bp.ensayo.service.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,10 +17,19 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class WebServiceImpl implements WebService {
-    private final FactoryClient factoryClient;
+    private final Factory factory;
 
     @Override
     public List<ProductDTO> getProducts() {
-        return factoryClient.getPlatziFakeApiClient().getProducts();
+        return factory.getPlatziFakeApiClient().getProducts();
+    }
+
+    @Override
+    public List<UserDTO> getUsers() {
+        ResponseEntity<List<UserDTO>> response = factory.getRestTemplate()
+                .exchange(factory.getUrl().concat("/users"), HttpMethod.GET, null,
+                        new ParameterizedTypeReference<>() {
+                        });
+        return response.getBody();
     }
 }
