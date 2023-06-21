@@ -1,13 +1,13 @@
 package com.bp.ensayo.ct1.service.impl;
 
-import com.bp.ensayo.ct1.domain.dto.Transaction;
-import com.bp.ensayo.ct1.domain.dto.TransferDTO;
 import com.bp.ensayo.ct1.domain.entity.AccountEntity;
-import com.bp.ensayo.ct1.domain.enu.AccountStatus;
-import com.bp.ensayo.ct1.domain.enu.AccountType;
+import com.bp.ensayo.ct1.domain.enums.AccountStatus;
+import com.bp.ensayo.ct1.domain.enums.AccountType;
 import com.bp.ensayo.ct1.exception.AccountException;
 import com.bp.ensayo.ct1.repository.AccountRepository;
 import com.bp.ensayo.ct1.repository.TransactionRepository;
+import com.bp.ensayo.ct1.service.dto.Transaction;
+import com.bp.ensayo.ct1.service.dto.TransferDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

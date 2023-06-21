@@ -1,6 +1,6 @@
 package com.bp.ensayo.ct1.controller;
 
-import com.bp.ensayo.ct1.domain.dto.AccountDTO;
+import com.bp.ensayo.ct1.service.dto.AccountDTO;
 import com.bp.ensayo.ct1.service.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

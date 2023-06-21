@@ -1,6 +1,6 @@
-package com.bp.ensayo.ct1.domain.dto;
+package com.bp.ensayo.ct1.service.dto;
 
-import com.bp.ensayo.ct1.domain.enu.TransactionType;
+import com.bp.ensayo.ct1.domain.enums.TransactionType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;

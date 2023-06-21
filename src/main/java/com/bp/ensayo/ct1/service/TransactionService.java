@@ -1,8 +1,8 @@
 package com.bp.ensayo.ct1.service;
 
-import com.bp.ensayo.ct1.domain.dto.Transaction;
-import com.bp.ensayo.ct1.domain.dto.TransactionDTO;
-import com.bp.ensayo.ct1.domain.dto.TransferDTO;
+import com.bp.ensayo.ct1.service.dto.Transaction;
+import com.bp.ensayo.ct1.service.dto.TransactionDTO;
+import com.bp.ensayo.ct1.service.dto.TransferDTO;
 
 import java.util.List;
 

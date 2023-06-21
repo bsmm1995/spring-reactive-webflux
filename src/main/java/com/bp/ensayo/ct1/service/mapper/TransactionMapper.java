@@ -1,6 +1,6 @@
 package com.bp.ensayo.ct1.service.mapper;
 
-import com.bp.ensayo.ct1.domain.dto.TransactionDTO;
+import com.bp.ensayo.ct1.service.dto.TransactionDTO;
 import com.bp.ensayo.ct1.domain.entity.TransactionEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

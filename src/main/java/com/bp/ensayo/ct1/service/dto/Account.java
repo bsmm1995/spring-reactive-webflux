@@ -1,7 +1,7 @@
-package com.bp.ensayo.ct1.domain.dto;
+package com.bp.ensayo.ct1.service.dto;
 
-import com.bp.ensayo.ct1.domain.enu.AccountStatus;
-import com.bp.ensayo.ct1.domain.enu.AccountType;
+import com.bp.ensayo.ct1.domain.enums.AccountStatus;
+import com.bp.ensayo.ct1.domain.enums.AccountType;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;

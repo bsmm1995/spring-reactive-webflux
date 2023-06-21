@@ -1,6 +1,6 @@
 package com.bp.ensayo.ct1.domain.entity;
 
-import com.bp.ensayo.ct1.domain.enu.TransactionType;
+import com.bp.ensayo.ct1.domain.enums.TransactionType;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;

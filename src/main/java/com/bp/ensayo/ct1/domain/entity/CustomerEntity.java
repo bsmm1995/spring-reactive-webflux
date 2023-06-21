@@ -1,6 +1,6 @@
 package com.bp.ensayo.ct1.domain.entity;
 
-import com.bp.ensayo.ct1.domain.enu.IdentificationType;
+import com.bp.ensayo.ct1.domain.enums.IdentificationType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
