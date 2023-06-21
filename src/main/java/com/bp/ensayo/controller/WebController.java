@@ -1,6 +1,7 @@
 package com.bp.ensayo.controller;
 
 import com.bp.ensayo.service.WebService;
+import com.bp.ensayo.service.dto.CategoryDTO;
 import com.bp.ensayo.service.dto.ProductDTO;
 import com.bp.ensayo.service.dto.UserDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,9 +27,15 @@ public class WebController {
         return ResponseEntity.ok(webService.getProducts());
     }
 
-    @Operation(summary = "Obtener los productos.")
+    @Operation(summary = "Obtener los usuarios.")
     @GetMapping("/users")
     public ResponseEntity<List<UserDTO>> getUsers() {
         return ResponseEntity.ok(webService.getUsers());
+    }
+
+    @Operation(summary = "Obtener las categorias.")
+    @GetMapping("/categories")
+    public ResponseEntity<List<CategoryDTO>> getCategories() {
+        return ResponseEntity.ok(webService.getCategories());
     }
 }
