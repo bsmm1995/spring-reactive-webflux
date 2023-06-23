@@ -1,15 +1,17 @@
 package com.bp.ensayo.service;
 
-import java.util.List;
+import org.springframework.data.domain.PageRequest;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public interface GenericService<D> {
-    D save(D data);
+    Mono<D> save(D data);
 
-    D update(long id, D data);
+    Mono<D> update(Long id, D data);
 
-    void delete(long id);
+    Mono<Void> delete(Long id);
 
-    List<D> getAll();
+    Flux<D> getAll(PageRequest pageRequest);
 
-    D getById(long id);
+    Mono<D> getById(Long id);
 }

@@ -2,12 +2,11 @@ package com.bp.ensayo.repository;
 
 import com.bp.ensayo.domain.entity.AccountEntity;
 import com.bp.ensayo.domain.entity.TransactionEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.r2dbc.repository.R2dbcRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
 
 @Repository
-public interface TransactionRepository extends JpaRepository<TransactionEntity, Long> {
-    List<TransactionEntity> findAllByAccount(AccountEntity account);
+public interface TransactionRepository extends R2dbcRepository<TransactionEntity, Long> {
+    Flux<TransactionEntity> findAllByAccount(AccountEntity account);
 }
