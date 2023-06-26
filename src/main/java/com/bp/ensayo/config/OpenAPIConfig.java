@@ -31,5 +31,5 @@ import org.springframework.context.annotation.Configuration;
                         description = "Development"
                 )}
 )
-public class OpenAPISecurityConfig {
+public class OpenAPIConfig {
 }

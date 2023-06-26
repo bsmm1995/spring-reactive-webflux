@@ -1,4 +1,4 @@
-package com.bp.ensayo.handlers;
+package com.bp.ensayo.handler;
 
 import com.bp.ensayo.service.TransactionService;
 import com.bp.ensayo.service.dto.Transaction;

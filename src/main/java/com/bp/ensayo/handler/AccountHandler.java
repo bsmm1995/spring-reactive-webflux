@@ -1,7 +1,7 @@
-package com.bp.ensayo.handlers;
+package com.bp.ensayo.handler;
 
-import com.bp.ensayo.service.CustomerService;
-import com.bp.ensayo.service.dto.CustomerDTO;
+import com.bp.ensayo.service.AccountService;
+import com.bp.ensayo.service.dto.AccountDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -20,51 +20,51 @@ import static org.springframework.web.reactive.function.BodyInserters.fromPublis
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class CustomerHandler {
+public class AccountHandler {
 
-    private final CustomerService customerService;
+    private final AccountService accountService;
 
     public Mono<ServerResponse> getById(ServerRequest serverRequest) {
-        var mono = customerService.getById(Long.valueOf(serverRequest.pathVariable("id")))
+        var mono = accountService.getById(Long.valueOf(serverRequest.pathVariable("id")))
                 .switchIfEmpty(Mono.error(() -> new ResponseStatusException(NOT_FOUND)));
-        return ServerResponse.ok().body(fromPublisher(mono, CustomerDTO.class));
+        return ServerResponse.ok().body(fromPublisher(mono, AccountDTO.class));
     }
 
     public Mono<ServerResponse> getAll(ServerRequest serverRequest) {
         var page = serverRequest.queryParam("page").orElse("0");
         var size = serverRequest.queryParam("size").orElse("5");
 
-        Flux<CustomerDTO> accounts = customerService.getAll(PageRequest.of(Integer.parseInt(page), Integer.parseInt(size)));
+        Flux<AccountDTO> accounts = accountService.getAll(PageRequest.of(Integer.parseInt(page), Integer.parseInt(size)));
         Mono<ServerResponse> notFound = ServerResponse.notFound().build();
 
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(accounts, CustomerDTO.class)
+                .body(accounts, AccountDTO.class)
                 .switchIfEmpty(notFound);
     }
 
     public Mono<ServerResponse> create(ServerRequest serverRequest) {
-        Mono<CustomerDTO> postDtoMono = serverRequest.bodyToMono(CustomerDTO.class);
+        Mono<AccountDTO> postDtoMono = serverRequest.bodyToMono(AccountDTO.class);
         Mono<ServerResponse> notFound = ServerResponse.notFound().build();
 
         return postDtoMono.flatMap(postDto ->
                         ServerResponse
                                 .status(HttpStatus.CREATED)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .body(customerService.save(postDto), CustomerDTO.class))
+                                .body(accountService.save(postDto), AccountDTO.class))
                 .switchIfEmpty(notFound);
     }
 
     public Mono<ServerResponse> update(ServerRequest serverRequest) {
         Long id = Long.valueOf(serverRequest.pathVariable("id"));
-        Mono<CustomerDTO> postDtoMono = serverRequest.bodyToMono(CustomerDTO.class);
+        Mono<AccountDTO> postDtoMono = serverRequest.bodyToMono(AccountDTO.class);
         Mono<ServerResponse> notFound = ServerResponse.notFound().build();
 
         return postDtoMono.flatMap(postDto ->
                         ServerResponse
                                 .status(HttpStatus.OK)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .body(customerService.update(id, postDto), CustomerDTO.class))
+                                .body(accountService.update(id, postDto), AccountDTO.class))
                 .switchIfEmpty(notFound);
     }
 
@@ -73,7 +73,7 @@ public class CustomerHandler {
         Mono<ServerResponse> notFound = ServerResponse.notFound().build();
         return ServerResponse
                 .status(HttpStatus.NO_CONTENT)
-                .build(customerService.delete(id))
+                .build(accountService.delete(id))
                 .switchIfEmpty(notFound);
     }
 }
