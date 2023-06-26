@@ -80,15 +80,15 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public Flux<TransactionDTO> getSummary(String accountNumber) {
         AccountEntity account = getAccountEntityByNumber(accountNumber);
-        return transactionRepository.findAllByAccount(account).map(TransactionMapper.INSTANCE::toDto);
+        return transactionRepository.findAllByAccountId(account.getId()).map(TransactionMapper.INSTANCE::toDto);
     }
 
     private AccountEntity getAccountEntityByNumber(String accountNumber) {
-        return accountRepository.findByAccountNumber(accountNumber).orElseThrow(() -> new NoSuchElementException("No existe la cuenta con numero " + accountNumber));
+        return accountRepository.findByAccountNumber(accountNumber).blockOptional().orElseThrow(() -> new NoSuchElementException("No existe la cuenta con numero " + accountNumber));
     }
 
     private void saveTransaction(AccountEntity account, BigDecimal amount, TransactionType type) {
-        TransactionEntity credit = TransactionEntity.builder().transactionType(type).amount(amount).account(account).build();
+        TransactionEntity credit = TransactionEntity.builder().transactionType(type).amount(amount).accountId(account.getId()).build();
         transactionRepository.save(credit);
         log.info("Se guardó la transacción. cuenta={}, tipo={}", account.getAccountNumber(), type);
     }

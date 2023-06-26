@@ -18,18 +18,13 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class TransactionEntity implements Serializable {
     @Id
-    @Column//(nullable = false, unique = true)
-    //@GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
 
-    //@Enumerated(EnumType.STRING)
-    @Column//(name = "TRANSACTION_TYPE", nullable = false)
-            TransactionType transactionType;
+    @Column(value = "TRANSACTION_TYPE")
+    TransactionType transactionType;
 
-    @Column//(nullable = false)
     BigDecimal amount;
 
-    //@ManyToOne
-    // @JoinColumn(name = "ACCOUNT_ID", nullable = false)
-    AccountEntity account;
+    @Column(value = "ACCOUNT_ID")
+    Long accountId;
 }
