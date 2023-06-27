@@ -1,6 +1,6 @@
 package com.bp.ensayo.service.impl;
 
-import com.bp.ensayo.domain.entity.AccountEntity;
+import com.bp.ensayo.repository.entity.AccountEntity;
 import com.bp.ensayo.repository.AccountRepository;
 import com.bp.ensayo.service.AccountService;
 import com.bp.ensayo.service.dto.AccountDTO;

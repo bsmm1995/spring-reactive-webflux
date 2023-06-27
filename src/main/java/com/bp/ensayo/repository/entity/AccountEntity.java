@@ -1,7 +1,7 @@
-package com.bp.ensayo.domain.entity;
+package com.bp.ensayo.repository.entity;
 
-import com.bp.ensayo.domain.enums.AccountStatus;
-import com.bp.ensayo.domain.enums.AccountType;
+import com.bp.ensayo.repository.enums.AccountStatus;
+import com.bp.ensayo.repository.enums.AccountType;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;

@@ -1,6 +1,6 @@
 package com.bp.ensayo.repository;
 
-import com.bp.ensayo.domain.entity.TransactionEntity;
+import com.bp.ensayo.repository.entity.TransactionEntity;
 import org.springframework.data.r2dbc.repository.R2dbcRepository;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;

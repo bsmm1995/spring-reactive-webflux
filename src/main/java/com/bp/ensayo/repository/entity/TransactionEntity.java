@@ -1,6 +1,6 @@
-package com.bp.ensayo.domain.entity;
+package com.bp.ensayo.repository.entity;
 
-import com.bp.ensayo.domain.enums.TransactionType;
+import com.bp.ensayo.repository.enums.TransactionType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.Id;

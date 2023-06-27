@@ -1,6 +1,6 @@
-package com.bp.ensayo.domain.entity;
+package com.bp.ensayo.repository.entity;
 
-import com.bp.ensayo.domain.enums.IdentificationType;
+import com.bp.ensayo.repository.enums.IdentificationType;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;

@@ -1,6 +1,6 @@
 package com.bp.ensayo.service.dto;
 
-import com.bp.ensayo.domain.enums.IdentificationType;
+import com.bp.ensayo.repository.enums.IdentificationType;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Data;

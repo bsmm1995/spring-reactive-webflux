@@ -1,9 +1,9 @@
 package com.bp.ensayo.service.impl;
 
-import com.bp.ensayo.domain.entity.AccountEntity;
-import com.bp.ensayo.domain.entity.TransactionEntity;
-import com.bp.ensayo.domain.enums.AccountStatus;
-import com.bp.ensayo.domain.enums.TransactionType;
+import com.bp.ensayo.repository.entity.AccountEntity;
+import com.bp.ensayo.repository.entity.TransactionEntity;
+import com.bp.ensayo.repository.enums.AccountStatus;
+import com.bp.ensayo.repository.enums.TransactionType;
 import com.bp.ensayo.exception.AccountException;
 import com.bp.ensayo.repository.AccountRepository;
 import com.bp.ensayo.repository.TransactionRepository;
