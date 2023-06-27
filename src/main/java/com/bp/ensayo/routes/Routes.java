@@ -3,6 +3,7 @@ package com.bp.ensayo.routes;
 import com.bp.ensayo.handler.AccountHandler;
 import com.bp.ensayo.handler.CustomerHandler;
 import com.bp.ensayo.handler.TransactionHandler;
+import org.springdoc.core.annotations.RouterOperation;
 import org.springdoc.core.annotations.RouterOperations;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +15,11 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 @Configuration
 public class Routes {
     @Bean
-    @RouterOperations
+    @RouterOperations({@RouterOperation(path = "/accounts", beanClass = AccountHandler.class, beanMethod = "getAll"),
+            @RouterOperation(path = "/accounts/{id}", beanClass = AccountHandler.class, beanMethod = "getById"),
+            @RouterOperation(path = "/accounts", beanClass = AccountHandler.class, beanMethod = "create"),
+            @RouterOperation(path = "/accounts", beanClass = AccountHandler.class, beanMethod = "update"),
+            @RouterOperation(path = "/accounts/{id}", beanClass = AccountHandler.class, beanMethod = "deleteById")})
     public RouterFunction<ServerResponse> accountsRoutes(AccountHandler handler) {
         return route().path("/accounts", builder -> builder
                 .GET("", handler::getAll)
