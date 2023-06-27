@@ -18,7 +18,6 @@ import org.springframework.web.reactive.config.EnableWebFlux;
 @EnableFeignClients
 @ImportAutoConfiguration({FeignAutoConfiguration.class})
 public class App {
-
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);
     }
