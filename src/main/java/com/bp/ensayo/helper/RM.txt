@@ -1,2 +1,0 @@
-Son funciones de ayuda que normalmente llamamos en multitud de sitios de nuestra aplicación,
-son una forma de evitar duplicar código para conseguir un mantenimiento sencillo de nuestro código.
