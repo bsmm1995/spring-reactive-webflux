@@ -47,53 +47,55 @@ import java.lang.annotation.Target;
                                                         mediaType = MediaType.APPLICATION_JSON_VALUE,
                                                         schema = @Schema(implementation = Transaction.class))
                                         })
-                        })), @RouterOperation(
-        method = RequestMethod.POST,
-        path = "/transactions/debit",
-        operation =
-        @Operation(
-                description = "Realizar un retiro.",
-                operationId = "makeWithdrawal",
-                tags = "Transacciones",
-                requestBody =
-                @RequestBody(
-                        description = "Body para realizar un retiro.",
-                        required = true,
-                        content = @Content(schema = @Schema(implementation = Transaction.class,
-                                requiredProperties = {"accountNumber", "amount"}))),
-                responses = {
-                        @ApiResponse(
-                                responseCode = "200",
-                                description = "Retiro realizado de forma exitosa.",
-                                content = {
-                                        @Content(
-                                                mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                                schema = @Schema(implementation = Transaction.class))
-                                })
-                })), @RouterOperation(
-        method = RequestMethod.POST,
-        path = "/transactions/transfer",
-        operation =
-        @Operation(
-                description = "Realizar una transferencia.",
-                operationId = "makeTransfer",
-                tags = "Transacciones",
-                requestBody =
-                @RequestBody(
-                        description = "Body para realizar una transferencia.",
-                        required = true,
-                        content = @Content(schema = @Schema(implementation = TransferDTO.class,
-                                requiredProperties = {"accountNumberOrigin", "accountNumberDestination", "amount"}))),
-                responses = {
-                        @ApiResponse(
-                                responseCode = "200",
-                                description = "Transferencia realizada de forma exitosa.",
-                                content = {
-                                        @Content(
-                                                mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                                schema = @Schema(implementation = TransferDTO.class))
-                                })
-                })),
+                        })),
+        @RouterOperation(
+                method = RequestMethod.POST,
+                path = "/transactions/debit",
+                operation =
+                @Operation(
+                        description = "Realizar un retiro.",
+                        operationId = "makeWithdrawal",
+                        tags = "Transacciones",
+                        requestBody =
+                        @RequestBody(
+                                description = "Body para realizar un retiro.",
+                                required = true,
+                                content = @Content(schema = @Schema(implementation = Transaction.class,
+                                        requiredProperties = {"accountNumber", "amount"}))),
+                        responses = {
+                                @ApiResponse(
+                                        responseCode = "200",
+                                        description = "Retiro realizado de forma exitosa.",
+                                        content = {
+                                                @Content(
+                                                        mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                                        schema = @Schema(implementation = Transaction.class))
+                                        })
+                        })),
+        @RouterOperation(
+                method = RequestMethod.POST,
+                path = "/transactions/transfer",
+                operation =
+                @Operation(
+                        description = "Realizar una transferencia.",
+                        operationId = "makeTransfer",
+                        tags = "Transacciones",
+                        requestBody =
+                        @RequestBody(
+                                description = "Body para realizar una transferencia.",
+                                required = true,
+                                content = @Content(schema = @Schema(implementation = TransferDTO.class,
+                                        requiredProperties = {"accountNumberOrigin", "accountNumberDestination", "amount"}))),
+                        responses = {
+                                @ApiResponse(
+                                        responseCode = "200",
+                                        description = "Transferencia realizada de forma exitosa.",
+                                        content = {
+                                                @Content(
+                                                        mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                                        schema = @Schema(implementation = TransferDTO.class))
+                                        })
+                        })),
         @RouterOperation(
                 method = RequestMethod.GET,
                 path = "/transactions/summary/{account-number}",
@@ -116,5 +118,5 @@ import java.lang.annotation.Target;
                                         })
                         }))
 })
-public @interface TransactionsApiInfo {
+public @interface TransactionsOpenApi {
 }
