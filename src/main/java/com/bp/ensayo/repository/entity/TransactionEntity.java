@@ -20,10 +20,10 @@ public class TransactionEntity implements Serializable {
     @Id
     Long id;
 
+    BigDecimal amount;
+
     @Column(value = "TRANSACTION_TYPE")
     TransactionType transactionType;
-
-    BigDecimal amount;
 
     @Column(value = "ACCOUNT_ID")
     Long accountId;

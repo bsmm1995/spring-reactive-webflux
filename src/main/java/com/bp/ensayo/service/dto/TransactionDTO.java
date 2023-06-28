@@ -16,4 +16,5 @@ public class TransactionDTO implements Serializable {
     Long id;
     BigDecimal amount;
     TransactionType transactionType;
+    Long accountId;
 }

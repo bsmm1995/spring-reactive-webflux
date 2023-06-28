@@ -23,5 +23,5 @@ public class AccountDTO implements Serializable {
     BigDecimal amount;
     AccountStatus status;
     AccountType type;
-    Customer customer;
+    Long customerId;
 }

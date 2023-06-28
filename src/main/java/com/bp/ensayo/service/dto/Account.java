@@ -17,4 +17,5 @@ public class Account implements Serializable {
     BigDecimal amount;
     AccountStatus status;
     AccountType type;
+    Long customerId;
 }
