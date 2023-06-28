@@ -22,7 +22,7 @@ public class Routes {
                 .GET("", handler::getAll)
                 .GET("/{id}", handler::getById)
                 .POST("", handler::create)
-                .PUT("/id", handler::update)
+                .PUT("/{id}", handler::update)
                 .DELETE("/{id}", handler::deleteById)
         ).build();
     }
@@ -34,7 +34,7 @@ public class Routes {
                 .GET("", handler::getAll)
                 .GET("/{id}", handler::getById)
                 .POST("", handler::create)
-                .PUT("/id", handler::update)
+                .PUT("/{id}", handler::update)
                 .DELETE("/{id}", handler::deleteById)
         ).build();
     }
