@@ -55,6 +55,9 @@ import java.lang.annotation.Target;
                         description = "Actualizar un cliente.",
                         operationId = "update",
                         tags = "Clientes",
+                        parameters = {
+                                @Parameter(name = "id", in = ParameterIn.PATH)
+                        },
                         requestBody =
                         @RequestBody(
                                 description = ".",
