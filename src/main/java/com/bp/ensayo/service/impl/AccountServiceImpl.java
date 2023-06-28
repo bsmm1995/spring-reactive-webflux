@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 @Service
 @Slf4j
@@ -37,7 +38,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Mono<Void> delete(Long id) {
-        return accountRepository.deleteById(id);
+        return accountRepository.findById(id)
+                .publishOn(Schedulers.boundedElastic())
+                .doOnSuccess(employee -> accountRepository.delete(employee).subscribe()).then();
     }
 
     @Override
