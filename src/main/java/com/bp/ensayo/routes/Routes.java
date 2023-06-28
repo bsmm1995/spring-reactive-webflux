@@ -3,6 +3,9 @@ package com.bp.ensayo.routes;
 import com.bp.ensayo.handler.AccountHandler;
 import com.bp.ensayo.handler.CustomerHandler;
 import com.bp.ensayo.handler.TransactionHandler;
+import com.bp.ensayo.routes.docs.AccountsOpenApi;
+import com.bp.ensayo.routes.docs.CustomersOpenApi;
+import com.bp.ensayo.routes.docs.TransactionsOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.server.RouterFunction;
@@ -25,6 +28,7 @@ public class Routes {
     }
 
     @Bean
+    @CustomersOpenApi
     public RouterFunction<ServerResponse> customersRoutes(CustomerHandler handler) {
         return route().path("/customers", builder -> builder
                 .GET("", handler::getAll)

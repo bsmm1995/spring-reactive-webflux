@@ -1,4 +1,4 @@
-package com.bp.ensayo.routes;
+package com.bp.ensayo.routes.docs;
 
 
 import com.bp.ensayo.service.dto.Transaction;

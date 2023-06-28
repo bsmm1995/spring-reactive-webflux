@@ -1,4 +1,4 @@
-package com.bp.ensayo.routes;
+package com.bp.ensayo.routes.docs;
 
 
 import com.bp.ensayo.service.dto.AccountDTO;
@@ -29,6 +29,7 @@ import java.lang.annotation.Target;
                 operation =
                 @Operation(
                         description = "Crear una cuenta.",
+                        operationId = "create",
                         tags = "Accounts",
                         requestBody =
                         @RequestBody(
@@ -52,6 +53,7 @@ import java.lang.annotation.Target;
                 operation =
                 @Operation(
                         description = "Actualizar una cuenta.",
+                        operationId = "update",
                         tags = "Accounts",
                         requestBody =
                         @RequestBody(
@@ -75,6 +77,7 @@ import java.lang.annotation.Target;
                 operation =
                 @Operation(
                         description = "Obtener todas las cuentas.",
+                        operationId = "getAll",
                         tags = "Accounts",
                         responses = {
                                 @ApiResponse(
@@ -91,7 +94,8 @@ import java.lang.annotation.Target;
                 path = "/accounts/{id}",
                 operation =
                 @Operation(
-                        description = "Obtener el una cuenta por su ID.",
+                        description = "Obtener una cuenta por su ID.",
+                        operationId = "getById",
                         tags = "Accounts",
                         parameters = {
                                 @Parameter(name = "id", in = ParameterIn.PATH)
@@ -112,6 +116,7 @@ import java.lang.annotation.Target;
                 operation =
                 @Operation(
                         description = "Eliminar una cuenta por su ID.",
+                        operationId = "delete",
                         tags = "Accounts",
                         parameters = {
                                 @Parameter(name = "id", in = ParameterIn.PATH)
