@@ -19,10 +19,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.1.0'
     implementation 'org.mapstruct:mapstruct:1.5.3.Final'
-    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.0.3'
-    implementation 'org.springframework.cloud:spring-cloud-openfeign-core:4.0.3'
+
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'io.r2dbc:r2dbc-h2'
+
     annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
