@@ -1,12 +1,12 @@
 package com.bp.ensayo.service.impl;
 
+import com.bp.ensayo.exception.AccountException;
+import com.bp.ensayo.repository.AccountRepository;
+import com.bp.ensayo.repository.TransactionRepository;
 import com.bp.ensayo.repository.entity.AccountEntity;
 import com.bp.ensayo.repository.entity.TransactionEntity;
 import com.bp.ensayo.repository.enums.AccountStatus;
 import com.bp.ensayo.repository.enums.TransactionType;
-import com.bp.ensayo.exception.AccountException;
-import com.bp.ensayo.repository.AccountRepository;
-import com.bp.ensayo.repository.TransactionRepository;
 import com.bp.ensayo.service.TransactionService;
 import com.bp.ensayo.service.dto.Transaction;
 import com.bp.ensayo.service.dto.TransactionDTO;
@@ -15,6 +15,7 @@ import com.bp.ensayo.service.mapper.TransactionMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -30,6 +31,7 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
 
     @Override
+    @Transactional
     public Mono<Transaction> makeDeposit(Transaction data) {
         AccountEntity account = getAccountEntityByNumber(data.getAccountNumber());
         account.setAmount(account.getAmount().add(data.getAmount()));
@@ -40,6 +42,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    @Transactional
     public Mono<Transaction> makeWithdrawal(Transaction data) {
         AccountEntity account = getAccountEntityByNumber(data.getAccountNumber());
         if (account.getAmount().compareTo(data.getAmount()) < 0) {
@@ -53,6 +56,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    @Transactional
     public Mono<TransferDTO> makeTransfer(TransferDTO data) {
         if (data.getAccountNumberOrigin().equals(data.getAccountNumberDestination())) {
             throw new AccountException("No se puede realizar transferencia entre la misma cuenta.");
