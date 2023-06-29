@@ -32,7 +32,6 @@ public class TransactionServiceImpl implements TransactionService {
     @Transactional
     public Mono<Transaction> makeDeposit(Transaction data) {
         return accountRepository.findByAccountNumber(data.getAccountNumber())
-                .doOnNext(e -> log.info("Deposit for: {}", data))
                 .switchIfEmpty(Mono.error(new NoSuchElementException("No existe la cuenta número " + data.getAccountNumber())))
                 .flatMap(account -> {
                     account.setAmount(account.getAmount().add(data.getAmount()));
@@ -50,7 +49,6 @@ public class TransactionServiceImpl implements TransactionService {
     @Transactional
     public Mono<Transaction> makeWithdrawal(Transaction data) {
         return accountRepository.findByAccountNumber(data.getAccountNumber())
-                .doOnNext(e -> log.info("Retiro for: {}", data))
                 .switchIfEmpty(Mono.error(new NoSuchElementException("No existe la cuenta número " + data.getAccountNumber())))
                 .doOnSuccess(account -> {
                     if (account.getAmount().compareTo(data.getAmount()) < 0) {
@@ -60,7 +58,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .flatMap(account -> {
                     account.setAmount(account.getAmount().subtract(data.getAmount()));
                     return accountRepository.save(account);
-                }).doOnSuccess(e -> log.info("Se guardó el retiro."))
+                }).doOnSuccess(e -> log.info("Se hizo el débito."))
                 .flatMap(account -> {
                     TransactionEntity credit = TransactionEntity.builder().transactionType(TransactionType.DEBIT).amount(data.getAmount()).accountId(account.getId()).build();
                     return transactionRepository.save(credit);
@@ -90,7 +88,7 @@ public class TransactionServiceImpl implements TransactionService {
                     TransactionEntity credit = TransactionEntity.builder().transactionType(TransactionType.DEBIT).amount(data.getAmount()).accountId(accountOrigin.getId()).build();
                     return transactionRepository.save(credit);
                 })
-                .doOnSuccess(e -> log.info("Se guardó el debito a la cuenta."))
+                .doOnSuccess(e -> log.info("Se guardó el debito a la cuenta origen."))
                 .flatMap(transaction ->
                         accountRepository.findByAccountNumber(data.getAccountNumberDestination())
                                 .switchIfEmpty(Mono.error(new NoSuchElementException("No existe la cuenta número " + data.getAccountNumberDestination())))
@@ -107,7 +105,7 @@ public class TransactionServiceImpl implements TransactionService {
                                     TransactionEntity credit = TransactionEntity.builder().transactionType(TransactionType.CREDIT).amount(data.getAmount()).accountId(accountDestination.getId()).build();
                                     return transactionRepository.save(credit);
                                 })
-                                .doOnSuccess(op -> log.info("Se guardó la acreditación a la cuenta."))
+                                .doOnSuccess(op -> log.info("Se guardó la acreditación a la cuenta destino."))
                 )
                 .map(transaction -> data);
     }
