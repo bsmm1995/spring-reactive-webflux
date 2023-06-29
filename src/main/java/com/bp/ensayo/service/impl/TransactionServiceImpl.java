@@ -11,6 +11,7 @@ import com.bp.ensayo.service.dto.Transaction;
 import com.bp.ensayo.service.dto.TransactionDTO;
 import com.bp.ensayo.service.dto.TransferDTO;
 import com.bp.ensayo.service.mapper.TransactionMapper;
+import com.bp.ensayo.util.Constants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Transactional
     public Mono<Transaction> makeDeposit(Transaction data) {
         return accountRepository.findByAccountNumber(data.getAccountNumber())
-                .switchIfEmpty(Mono.error(new NoSuchElementException("No existe la cuenta número " + data.getAccountNumber())))
+                .switchIfEmpty(Mono.error(new NoSuchElementException(Constants.ACCOUNT_NOT_FOUND + data.getAccountNumber())))
                 .flatMap(account -> {
                     account.setAmount(account.getAmount().add(data.getAmount()));
                     return accountRepository.save(account);
@@ -49,7 +50,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Transactional
     public Mono<Transaction> makeWithdrawal(Transaction data) {
         return accountRepository.findByAccountNumber(data.getAccountNumber())
-                .switchIfEmpty(Mono.error(new NoSuchElementException("No existe la cuenta número " + data.getAccountNumber())))
+                .switchIfEmpty(Mono.error(new NoSuchElementException(Constants.ACCOUNT_NOT_FOUND + data.getAccountNumber())))
                 .doOnSuccess(account -> {
                     if (account.getAmount().compareTo(data.getAmount()) < 0) {
                         throw new AccountException("Saldo insuficiente. Saldo actual " + account.getAmount());
@@ -74,7 +75,7 @@ public class TransactionServiceImpl implements TransactionService {
             throw new AccountException("No se puede realizar transferencia entre la misma cuenta.");
         }
         return accountRepository.findByAccountNumber(data.getAccountNumberOrigin())
-                .switchIfEmpty(Mono.error(new NoSuchElementException("No existe la cuenta número " + data.getAccountNumberOrigin())))
+                .switchIfEmpty(Mono.error(new NoSuchElementException(Constants.ACCOUNT_NOT_FOUND + data.getAccountNumberOrigin())))
                 .doOnSuccess(accountOrigin -> {
                     if (accountOrigin.getAmount().compareTo(data.getAmount()) < 0) {
                         throw new AccountException("Saldo insuficiente. Saldo actual " + accountOrigin.getAmount());
