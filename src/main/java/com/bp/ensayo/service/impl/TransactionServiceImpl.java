@@ -33,12 +33,19 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     @Transactional
     public Mono<Transaction> makeDeposit(Transaction data) {
-        AccountEntity account = getAccountEntityByNumber(data.getAccountNumber());
-        account.setAmount(account.getAmount().add(data.getAmount()));
-        accountRepository.save(account);
-        log.info("Se guardó el deposito");
-        saveTransaction(account, data.getAmount(), TransactionType.CREDIT);
-        return Mono.just(data);
+        return accountRepository.findByAccountNumber(data.getAccountNumber())
+                .doOnNext(e -> log.info("Deposit for: {}", data))
+                .switchIfEmpty(Mono.error(new NoSuchElementException("No existe la cuenta número " + data.getAccountNumber())))
+                .flatMap(account -> {
+                    account.setAmount(account.getAmount().add(data.getAmount()));
+                    return accountRepository.save(account);
+                }).doOnSuccess(e -> log.info("Se guardó el deposito."))
+                .flatMap(account -> {
+                    TransactionEntity credit = TransactionEntity.builder().transactionType(TransactionType.CREDIT).amount(data.getAmount()).accountId(account.getId()).build();
+                    return transactionRepository.save(credit);
+                })
+                .doOnSuccess(e -> log.info("Se guardó la transacción."))
+                .map(transaction -> data);
     }
 
     @Override
