@@ -83,8 +83,10 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Flux<TransactionDTO> getSummary(String accountNumber) {
-        AccountEntity account = getAccountEntityByNumber(accountNumber);
-        return transactionRepository.findAllByAccountId(account.getId()).map(TransactionMapper.INSTANCE::toDto);
+        return accountRepository.findByAccountNumber(accountNumber)
+                .doOnNext(e -> log.info("Report of: {}", e))
+                .switchIfEmpty(Mono.error(new NoSuchElementException("No existe la cuenta número " + accountNumber)))
+                .flatMapMany(e -> transactionRepository.findAllByAccountId(e.getId()).map(TransactionMapper.INSTANCE::toDto));
     }
 
     private AccountEntity getAccountEntityByNumber(String accountNumber) {

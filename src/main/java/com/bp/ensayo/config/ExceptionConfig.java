@@ -16,13 +16,13 @@ import java.util.NoSuchElementException;
 public class ExceptionConfig {
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<Object> noSuchElementException(NoSuchElementException e) {
-        log.error(e.toString());
+        log.error(e.getMessage());
         return ResponseEntity.badRequest().body(e.getLocalizedMessage());
     }
 
     @ExceptionHandler({AccountException.class, CustomerException.class})
     public ResponseEntity<Object> accountException(RuntimeException e) {
-        log.error(e.toString());
+        log.error(e.getMessage());
         return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.CONFLICT);
     }
 }
