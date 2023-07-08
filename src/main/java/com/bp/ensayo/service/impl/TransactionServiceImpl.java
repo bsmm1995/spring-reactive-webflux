@@ -1,6 +1,5 @@
 package com.bp.ensayo.service.impl;
 
-import com.bp.ensayo.exception.AccountException;
 import com.bp.ensayo.repository.AccountRepository;
 import com.bp.ensayo.repository.TransactionRepository;
 import com.bp.ensayo.repository.entity.TransactionEntity;
@@ -14,12 +13,12 @@ import com.bp.ensayo.service.mapper.TransactionMapper;
 import com.bp.ensayo.util.Constants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.util.NoSuchElementException;
 
 @Service
 @Slf4j
@@ -33,7 +32,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Transactional
     public Mono<Transaction> makeDeposit(Transaction data) {
         return accountRepository.findByAccountNumber(data.getAccountNumber())
-                .switchIfEmpty(Mono.error(new NoSuchElementException(Constants.ACCOUNT_NOT_FOUND + data.getAccountNumber())))
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.ACCOUNT_NOT_FOUND + data.getAccountNumber())))
                 .flatMap(account -> {
                     account.setAmount(account.getAmount().add(data.getAmount()));
                     return accountRepository.save(account);
@@ -50,10 +49,10 @@ public class TransactionServiceImpl implements TransactionService {
     @Transactional
     public Mono<Transaction> makeWithdrawal(Transaction data) {
         return accountRepository.findByAccountNumber(data.getAccountNumber())
-                .switchIfEmpty(Mono.error(new NoSuchElementException(Constants.ACCOUNT_NOT_FOUND + data.getAccountNumber())))
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.ACCOUNT_NOT_FOUND + data.getAccountNumber())))
                 .doOnSuccess(account -> {
                     if (account.getAmount().compareTo(data.getAmount()) < 0) {
-                        throw new AccountException("Saldo insuficiente. Saldo actual " + account.getAmount());
+                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Saldo insuficiente. Saldo actual " + account.getAmount());
                     }
                 })
                 .flatMap(account -> {
@@ -72,13 +71,13 @@ public class TransactionServiceImpl implements TransactionService {
     @Transactional
     public Mono<TransferDTO> makeTransfer(TransferDTO data) {
         if (data.getAccountNumberOrigin().equals(data.getAccountNumberDestination())) {
-            throw new AccountException("No se puede realizar transferencia entre la misma cuenta.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No se puede realizar transferencia entre la misma cuenta.");
         }
         return accountRepository.findByAccountNumber(data.getAccountNumberOrigin())
-                .switchIfEmpty(Mono.error(new NoSuchElementException(Constants.ACCOUNT_NOT_FOUND + data.getAccountNumberOrigin())))
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.ACCOUNT_NOT_FOUND + data.getAccountNumberOrigin())))
                 .doOnSuccess(accountOrigin -> {
                     if (accountOrigin.getAmount().compareTo(data.getAmount()) < 0) {
-                        throw new AccountException("Saldo insuficiente. Saldo actual " + accountOrigin.getAmount());
+                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Saldo insuficiente. Saldo actual " + accountOrigin.getAmount());
                     }
                 })
                 .flatMap(accountOrigin -> {
@@ -92,10 +91,10 @@ public class TransactionServiceImpl implements TransactionService {
                 .doOnSuccess(e -> log.info("Se guardó el debito a la cuenta origen."))
                 .flatMap(transaction ->
                         accountRepository.findByAccountNumber(data.getAccountNumberDestination())
-                                .switchIfEmpty(Mono.error(new NoSuchElementException("No existe la cuenta número " + data.getAccountNumberDestination())))
+                                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "No existe la cuenta número " + data.getAccountNumberDestination())))
                                 .doOnSuccess(accountDestination -> {
                                     if (accountDestination.getStatus().equals(AccountStatus.INACTIVE)) {
-                                        throw new AccountException("La cuenta " + data.getAccountNumberDestination() + " no se encuentra activa.");
+                                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La cuenta " + data.getAccountNumberDestination() + " no se encuentra activa.");
                                     }
                                 })
                                 .flatMap(accountDestination -> {
@@ -115,7 +114,7 @@ public class TransactionServiceImpl implements TransactionService {
     public Flux<TransactionDTO> getSummary(String accountNumber) {
         return accountRepository.findByAccountNumber(accountNumber)
                 .doOnNext(e -> log.info("Report of: {}", e))
-                .switchIfEmpty(Mono.error(new NoSuchElementException("No existe la cuenta número " + accountNumber)))
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "No existe la cuenta número " + accountNumber)))
                 .flatMapMany(e -> transactionRepository.findAllByAccountId(e.getId()).map(TransactionMapper.INSTANCE::toDto));
     }
 }

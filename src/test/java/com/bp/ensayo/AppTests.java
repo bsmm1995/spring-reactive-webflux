@@ -11,8 +11,8 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.util.List;
 
-@AutoConfigureWebTestClient //1.Simulado, sin levantar el servidor Nety
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)  //@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@AutoConfigureWebTestClient
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 class AppTests {
     @Autowired
     private WebTestClient client;
@@ -52,5 +52,4 @@ class AppTests {
                     Assertions.assertThat(account.getId() == 1).isEqualTo(Boolean.TRUE);
                 });
     }
-
 }

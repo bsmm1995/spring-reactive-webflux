@@ -1,6 +1,5 @@
 package com.bp.ensayo.service.impl;
 
-import com.bp.ensayo.exception.AccountException;
 import com.bp.ensayo.repository.AccountRepository;
 import com.bp.ensayo.repository.TransactionRepository;
 import com.bp.ensayo.repository.entity.AccountEntity;
@@ -15,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -106,8 +106,8 @@ class TransactionServiceImplTest {
 
         StepVerifier
                 .create(transactionService.makeWithdrawal(transaction))
-                .expectErrorMatches(throwable -> throwable instanceof AccountException &&
-                        throwable.getMessage().equals("Saldo insuficiente. Saldo actual " + account.getAmount())
+                .expectErrorMatches(throwable -> throwable instanceof ResponseStatusException &&
+                        ((ResponseStatusException) throwable).getReason().equals("Saldo insuficiente. Saldo actual " + account.getAmount())
                 ).verify();
     }
 
@@ -121,8 +121,8 @@ class TransactionServiceImplTest {
 
         StepVerifier
                 .create(transactionService.makeTransfer(transaction))
-                .expectErrorMatches(throwable -> throwable instanceof AccountException &&
-                        throwable.getMessage().equals("No se puede realizar transferencia entre la misma cuenta.")
+                .expectErrorMatches(throwable -> throwable instanceof ResponseStatusException &&
+                        ((ResponseStatusException) throwable).getReason().equals("No se puede realizar transferencia entre la misma cuenta.")
                 ).verify();
     }
 
@@ -148,8 +148,8 @@ class TransactionServiceImplTest {
 
         StepVerifier
                 .create(transactionService.makeTransfer(transaction))
-                .expectErrorMatches(throwable -> throwable instanceof AccountException &&
-                        throwable.getMessage().equals("Saldo insuficiente. Saldo actual " + accountOrigen.getAmount())
+                .expectErrorMatches(throwable -> throwable instanceof ResponseStatusException &&
+                        ((ResponseStatusException) throwable).getReason().equals("Saldo insuficiente. Saldo actual " + accountOrigen.getAmount())
                 ).verify();
     }
 
@@ -183,8 +183,8 @@ class TransactionServiceImplTest {
 
         StepVerifier
                 .create(transactionService.makeTransfer(transaction))
-                .expectErrorMatches(throwable -> throwable instanceof AccountException &&
-                        throwable.getMessage().equals("La cuenta " + transaction.getAccountNumberDestination() + " no se encuentra activa.")
+                .expectErrorMatches(throwable -> throwable instanceof ResponseStatusException &&
+                        ((ResponseStatusException) throwable).getReason().equals("La cuenta " + transaction.getAccountNumberDestination() + " no se encuentra activa.")
                 ).verify();
     }
 }
