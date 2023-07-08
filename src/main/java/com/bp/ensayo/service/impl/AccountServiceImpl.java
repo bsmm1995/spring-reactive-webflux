@@ -13,6 +13,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
+import java.util.NoSuchElementException;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -52,6 +54,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Mono<AccountDTO> getById(Long id) {
-        return accountRepository.findById(id).map(AccountMapper.INSTANCE::toDto);
+        return accountRepository.findById(id)
+                .switchIfEmpty(Mono.error(new NoSuchElementException("No existe la cuenta con ID " + id)))
+                .map(AccountMapper.INSTANCE::toDto);
     }
 }
